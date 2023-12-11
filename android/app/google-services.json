@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "711997283963",
+    "firebase_url": "https://handlelisteflutter-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "handlelisteflutter",
+    "storage_bucket": "handlelisteflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:711997283963:android:a255519d6e316cc0cb8cde",
+        "android_client_info": {
+          "package_name": "com.example.handleliste"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjwiEefcNF9orMb7ni1C2tgzcBuVSpcZE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
