@@ -16,13 +16,13 @@ To get a local copy up and running, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/yourrepository.git
+git clone https://github.com/kolbein/ShoppingListAppFlutter.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd yourrepository
+cd ShoppingListAppFlutter
 ```
 
 3. Install the dependencies:
