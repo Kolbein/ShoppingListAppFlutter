@@ -1,30 +1,42 @@
-# handleliste
+# Flutter Shopping List App
 
-A new Flutter project.
+This is a shopping list app built with [Flutter](https://flutter.dev/) and [Firebase](https://firebase.google.com/). It uses Google Sign-In for authentication and Firebase Realtime Database for data storage.
+
+## Features
+
+- Google Sign-In for authentication
+- Add new items or tap the existing ones in in the list of historic shopping items
+- Real-time updates with Firebase Realtime Database
+- Share the live shopping list with a friend
 
 ## Getting Started
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/docs/development/data-and-backend/state-mgmt/simple).
+To get a local copy up and running, follow these steps:
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
 
-## Assets
+```bash
+git clone https://github.com/yourusername/yourrepository.git
+```
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+2. Navigate to the project directory:
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-aware).
+```bash
+cd yourrepository
+```
 
-## Localization
+3. Install the dependencies:
 
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
+```bash
+flutter pub get
+```
 
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+4. Run the app:
+
+```bash
+flutter run
+```
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
