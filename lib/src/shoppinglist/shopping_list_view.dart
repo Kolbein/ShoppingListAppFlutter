@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'shopping_item.dart';
 
 class ShoppingListView extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/shoppinglist';
 
   const ShoppingListView({super.key});
 

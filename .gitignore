@@ -146,3 +146,12 @@ app.*.map.json
 /android/app/release
 
 migrate_working_dir/
+
+**/google-services.json
+**/firebase_app_id_file.json
+**/GoogleService-Info.plist
+**/secrets.json
+**/.env
+**/.vscode/
+**/.idea/
+**/pubspec.lock
