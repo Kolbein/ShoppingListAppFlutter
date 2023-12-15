@@ -50,6 +50,20 @@ class MyApp extends StatelessWidget {
               },
             );
           },
+          // home: StreamBuilder<User?>(
+          //   stream: FirebaseAuth.instance.authStateChanges(),
+          //   builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const CircularProgressIndicator();
+          //     } else {
+          //       if (snapshot.data != null) {
+          //         return const ShoppingListView();
+          //       } else {
+          //         return const SignInScreen();
+          //       }
+          //     }
+          //   },
+          // ),
           home: FutureBuilder<bool>(
             future: _isUserLoggedIn(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -59,7 +73,7 @@ class MyApp extends StatelessWidget {
                 if (snapshot.data != null && snapshot.data!) {
                   return const ShoppingListView();
                 } else {
-                  return SignInScreen();
+                  return const SignInScreen();
                 }
               }
             },
