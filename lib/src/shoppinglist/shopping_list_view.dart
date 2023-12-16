@@ -94,8 +94,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                       children: <Widget>[
                         const Padding(
                           padding: EdgeInsets.only(top: 10.0),
-                          child: Text('Tidligere varer 📜',
-                              style: TextStyle(fontSize: 22)),
+                          child: Text('Tidligere varer 📜'),
                         ),
                         Expanded(
                           child: Padding(
@@ -114,7 +113,9 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       ),
                                       elevation: 2,
                                       child: ListTile(
-                                        title: Text(item.name),
+                                        title: Text(item.name,
+                                            style: const TextStyle(
+                                                fontFamily: 'NotoColorEmoji')),
                                         onTap: () {
                                           ref
                                               .child(item.name)
@@ -140,7 +141,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                         const Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text('Handleliste 🛒',
-                              style: TextStyle(fontSize: 22)),
+                              style: TextStyle(
+                                  fontSize: 22, fontFamily: 'NotoColorEmoji')),
                         ),
                         Expanded(
                           child: Padding(
@@ -166,8 +168,10 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       ),
                                       elevation: 2,
                                       child: ListTile(
-                                        title:
-                                            Text('${item.count}x ${item.name}'),
+                                        title: Text(
+                                            '${item.count}x ${item.name}',
+                                            style: const TextStyle(
+                                                fontFamily: 'NotoColorEmoji')),
                                         onTap: () {
                                           ref
                                               .child(item.name)
