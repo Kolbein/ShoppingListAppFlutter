@@ -34,14 +34,8 @@ flutter:
   generate: true
 
   assets:
-    # Add assets from the images directory to the application.
     - assets/images/
   
-  fonts:
-  - family: NotoColorEmoji
-    fonts:
-      - asset: fonts/NotoColorEmoji.ttf
-
 flutter_icons:
   android: true
   ios: true

@@ -32,7 +32,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         items.add(ShoppingItem(key, count: value));
       });
       items.sort((a, b) =>
-          a.name.compareTo(b.name)); // Sort items after adding new ones
+          a.name.compareTo(b.name));
       setState(() {});
     });
   }
@@ -94,7 +94,10 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                       children: <Widget>[
                         const Padding(
                           padding: EdgeInsets.only(top: 10.0),
-                          child: Text('Tidligere varer 📜'),
+                          child: Text(
+                            'Tidligere varer 📜',
+                            style: TextStyle(fontSize: 18),
+                          ),
                         ),
                         Expanded(
                           child: Padding(
@@ -113,9 +116,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       ),
                                       elevation: 2,
                                       child: ListTile(
-                                        title: Text(item.name,
-                                            style: const TextStyle(
-                                                fontFamily: 'NotoColorEmoji')),
+                                        title: Text(item.name),
                                         onTap: () {
                                           ref
                                               .child(item.name)
@@ -140,9 +141,12 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                       children: <Widget>[
                         const Padding(
                           padding: EdgeInsets.only(top: 10.0),
-                          child: Text('Handleliste 🛒',
-                              style: TextStyle(
-                                  fontSize: 22, fontFamily: 'NotoColorEmoji')),
+                          child: Text(
+                            'Handleliste 🛒',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
                         ),
                         Expanded(
                           child: Padding(
@@ -169,9 +173,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       elevation: 2,
                                       child: ListTile(
                                         title: Text(
-                                            '${item.count}x ${item.name}',
-                                            style: const TextStyle(
-                                                fontFamily: 'NotoColorEmoji')),
+                                            '${item.count}x ${item.name}'),
                                         onTap: () {
                                           ref
                                               .child(item.name)
