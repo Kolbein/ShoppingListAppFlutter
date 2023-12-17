@@ -43,7 +43,9 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         });
         items.sort((a, b) => a.name.compareTo(b.name));
       }
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
 
@@ -98,7 +100,6 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              // Share the list ID
               Share.share('Bli med i handleliste min med ID: ${widget.listId}');
             },
           ),
