@@ -6,6 +6,7 @@ import 'src/settings/settings_service.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 
 void main() async {
   // Set up the SettingsController, which will glue user settings to multiple
@@ -23,5 +24,9 @@ void main() async {
   // Run the app and pass in the SettingsController. The app listens to the
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
-  runApp(MyApp(settingsController: settingsController));
+  runApp(
+    EasyDynamicThemeWidget(
+      child: MyApp(settingsController: settingsController)
+    )
+  );
 }

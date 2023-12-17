@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'shopping_item.dart';
+import 'package:share/share.dart';
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
+import 'package:handleliste/src/shopping_list_creation_view/shopping_list_creation_view.dart';
 
 class ShoppingListView extends StatefulWidget {
   static const routeName = '/shoppinglist';
 
-  const ShoppingListView({super.key});
+  final String listId;
+
+  const ShoppingListView({super.key, required this.listId});
 
   @override
   _ShoppingListViewState createState() => _ShoppingListViewState();
@@ -13,26 +18,31 @@ class ShoppingListView extends StatefulWidget {
 
 class _ShoppingListViewState extends State<ShoppingListView> {
   final FirebaseDatabase database = FirebaseDatabase.instance;
-
-  DatabaseReference ref = FirebaseDatabase.instance.ref("shoppingitems");
-
+  // DatabaseReference ref = FirebaseDatabase.instance.ref("shoppingitems");
+  DatabaseReference? ref;
   List<ShoppingItem> items = [];
-
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    ref.onValue.listen((event) {
+    ref = FirebaseDatabase.instance
+        .ref("shoppinglists/${widget.listId}/shoppingitems");
+    loadItems();
+  }
+
+  void loadItems() {
+    ref!.onValue.listen((event) {
       var snapshot = event.snapshot;
       items.clear();
-      var values =
-          Map<String, int>.from(snapshot.value as Map<Object?, Object?>);
-      values.forEach((key, value) {
-        items.add(ShoppingItem(key, count: value));
-      });
-      items.sort((a, b) =>
-          a.name.compareTo(b.name));
+      if (snapshot.value != null) {
+        var values =
+            Map<String, int>.from(snapshot.value as Map<Object?, Object?>);
+        values.forEach((key, value) {
+          items.add(ShoppingItem(key, count: value));
+        });
+        items.sort((a, b) => a.name.compareTo(b.name));
+      }
       setState(() {});
     });
   }
@@ -60,11 +70,13 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             ElevatedButton(
               onPressed: () async {
                 String itemName = _controller.text;
-                DataSnapshot snapshot = await ref.child(itemName).get();
-                if (snapshot.value != null && snapshot.value is int) {
-                  ref.child(itemName).set((snapshot.value as int) + 1);
-                } else {
-                  ref.child(itemName).set(1);
+                if (ref != null) {
+                  DataSnapshot snapshot = await ref!.child(itemName).get();
+                  if (snapshot.value != null && snapshot.value is int) {
+                    ref!.child(itemName).set((snapshot.value as int) + 1);
+                  } else {
+                    ref!.child(itemName).set(1);
+                  }
                 }
                 _controller.clear();
                 Navigator.of(context).pop();
@@ -80,9 +92,35 @@ class _ShoppingListViewState extends State<ShoppingListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Sample Items'),
-      // ),
+      appBar: AppBar(
+        title: const Text('Handleliste 🛒'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.share),
+            onPressed: () {
+              // Share the list ID
+              Share.share('Bli med i handleliste min med ID: ${widget.listId}');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.lightbulb),
+            onPressed: () {
+              var value = Theme.of(context).brightness != Brightness.dark;
+              EasyDynamicTheme.of(context).changeTheme(dark: value);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.create),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ShoppingListCreationView()),
+              );
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: <Widget>[
@@ -95,8 +133,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                         const Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text(
-                            'Tidligere varer 📜',
-                            style: TextStyle(fontSize: 18),
+                            'Tidligere varer',
+                            style: TextStyle(fontSize: 16),
                           ),
                         ),
                         Expanded(
@@ -118,12 +156,16 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       child: ListTile(
                                         title: Text(item.name),
                                         onTap: () {
-                                          ref
-                                              .child(item.name)
-                                              .set(item.count + 1);
+                                          if (ref != null) {
+                                            ref!
+                                                .child(item.name)
+                                                .set(item.count + 1);
+                                          }
                                         },
                                         onLongPress: () {
-                                          ref.child(item.name).remove();
+                                          if (ref != null) {
+                                            ref!.child(item.name).remove();
+                                          }
                                         },
                                       ),
                                     );
@@ -142,9 +184,9 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                         const Padding(
                           padding: EdgeInsets.only(top: 10.0),
                           child: Text(
-                            'Handleliste 🛒',
+                            'Valgte varer',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 16.0,
                             ),
                           ),
                         ),
@@ -172,12 +214,14 @@ class _ShoppingListViewState extends State<ShoppingListView> {
                                       ),
                                       elevation: 2,
                                       child: ListTile(
-                                        title: Text(
-                                            '${item.count}x ${item.name}'),
+                                        title:
+                                            Text('${item.count}x ${item.name}'),
                                         onTap: () {
-                                          ref
-                                              .child(item.name)
-                                              .set(item.count - 1);
+                                          if (ref != null) {
+                                            ref!
+                                                .child(item.name)
+                                                .set(item.count - 1);
+                                          }
                                         },
                                       ),
                                     );

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:handleliste/src/shopping_list_creation_view/shopping_list_creation_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 
 import 'shoppinglist/shopping_list_view.dart';
 import 'signinscreen/signinscreen.dart';
@@ -16,6 +18,11 @@ class MyApp extends StatelessWidget {
   Future<bool> _isUserLoggedIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getBool('isLoggedIn') ?? false;
+  }
+
+  Future<String?> _getShoppingListId() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('shoppingListId');
   }
 
   @override
@@ -39,7 +46,8 @@ class MyApp extends StatelessWidget {
               AppLocalizations.of(context)!.appTitle,
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
-          themeMode: settingsController.themeMode,
+          themeMode: EasyDynamicTheme.of(context)
+              .themeMode, //settingsController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(
               settings: routeSettings,
@@ -50,20 +58,6 @@ class MyApp extends StatelessWidget {
               },
             );
           },
-          // home: StreamBuilder<User?>(
-          //   stream: FirebaseAuth.instance.authStateChanges(),
-          //   builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const CircularProgressIndicator();
-          //     } else {
-          //       if (snapshot.data != null) {
-          //         return const ShoppingListView();
-          //       } else {
-          //         return const SignInScreen();
-          //       }
-          //     }
-          //   },
-          // ),
           home: FutureBuilder<bool>(
             future: _isUserLoggedIn(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -71,7 +65,21 @@ class MyApp extends StatelessWidget {
                 return const CircularProgressIndicator();
               } else {
                 if (snapshot.data != null && snapshot.data!) {
-                  return const ShoppingListView();
+                  return FutureBuilder<String?>(
+                    future: _getShoppingListId(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<String?> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else {
+                        if (snapshot.data != null) {
+                          return ShoppingListView(listId: snapshot.data!);
+                        } else {
+                          return const ShoppingListCreationView();
+                        }
+                      }
+                    },
+                  );
                 } else {
                   return const SignInScreen();
                 }
