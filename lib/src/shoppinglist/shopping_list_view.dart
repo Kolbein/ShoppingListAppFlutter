@@ -108,7 +108,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.home),
+            icon: const Icon(Icons.view_list_rounded),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
