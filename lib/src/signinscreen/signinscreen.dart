@@ -87,7 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: 50.0), // Adjust the padding to your liking
+                  horizontal: 50.0),
               child: ElevatedButton.icon(
                 icon:
                     Image.asset('assets/images/google_logo.webp', height: 36.0),

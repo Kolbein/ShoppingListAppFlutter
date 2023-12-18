@@ -34,9 +34,6 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
   Widget build(BuildContext context) {
     String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Handleliste 🛒'),
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -55,7 +52,7 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                 children: <Widget>[
                   Center(
                     child: SizedBox(
-                      width: 220, // Set this to your desired width
+                      width: 220,
                       child: TextFormField(
                         controller: _listIdController,
                         decoration: InputDecoration(
@@ -77,7 +74,7 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                   ),
                   Center(
                     child: SizedBox(
-                      width: 220, // Set this to your desired width
+                      width: 220,
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: ElevatedButton(
@@ -122,8 +119,6 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                                   );
                                 }
                               } else {
-                                // Handle the case where there is no authenticated user
-                                // For example, you could show a dialog or a snackbar
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text(
@@ -142,7 +137,7 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
             ),
             Center(
               child: SizedBox(
-                width: 220, // Set this to your desired width
+                width: 220,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (currentUserId != null) {
@@ -171,8 +166,6 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                                 ShoppingListView(listId: newListId)),
                       );
                     } else {
-                      // Handle the case where there is no authenticated user
-                      // For example, you could show a dialog or a snackbar
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content:
@@ -187,7 +180,7 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
             if (listId != null)
               Center(
                 child: SizedBox(
-                  width: 220, // Set this to your desired width
+                  width: 220,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: ElevatedButton(

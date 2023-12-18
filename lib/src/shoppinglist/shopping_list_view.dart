@@ -6,11 +6,9 @@ import 'package:handleliste/src/shopping_list_creation_view/shopping_list_creati
 import 'shopping_item.dart';
 
 class ShoppingListView extends StatefulWidget {
-  static const routeName = '/shoppinglist';
-
-  final String listId;
-
   const ShoppingListView({super.key, required this.listId});
+  
+  final String listId;
 
   @override
   _ShoppingListViewState createState() => _ShoppingListViewState();
@@ -18,7 +16,6 @@ class ShoppingListView extends StatefulWidget {
 
 class _ShoppingListViewState extends State<ShoppingListView> {
   final FirebaseDatabase database = FirebaseDatabase.instance;
-  // DatabaseReference ref = FirebaseDatabase.instance.ref("shoppingitems");
   DatabaseReference? ref;
   List<ShoppingItem> items = [];
   final TextEditingController _controller = TextEditingController();
@@ -111,7 +108,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.create),
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
