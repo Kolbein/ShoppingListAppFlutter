@@ -97,7 +97,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              Share.share('Bli med i handleliste min med ID: ${widget.listId}');
+              Share.share('Bli med i handleliste min med ID: ${widget.listId}', subject: 'Handleliste');
             },
           ),
           IconButton(
@@ -108,7 +108,7 @@ class _ShoppingListViewState extends State<ShoppingListView> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.home),
             onPressed: () {
               Navigator.pushReplacement(
                 context,
