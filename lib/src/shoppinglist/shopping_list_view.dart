@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'shopping_item.dart';
-import 'package:share/share.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:handleliste/src/shopping_list_creation_view/shopping_list_creation_view.dart';
+import 'shopping_item.dart';
 
 class ShoppingListView extends StatefulWidget {
   static const routeName = '/shoppinglist';
