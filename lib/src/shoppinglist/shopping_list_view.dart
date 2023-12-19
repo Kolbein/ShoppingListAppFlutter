@@ -7,7 +7,7 @@ import 'shopping_item.dart';
 
 class ShoppingListView extends StatefulWidget {
   const ShoppingListView({super.key, required this.listId});
-  
+
   final String listId;
 
   @override
@@ -97,7 +97,8 @@ class _ShoppingListViewState extends State<ShoppingListView> {
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
-              Share.share('Bli med i handleliste min med ID: ${widget.listId}', subject: 'Handleliste');
+              Share.share('Bli med i handlelisten min med ID: ${widget.listId}',
+                  subject: 'Handleliste');
             },
           ),
           IconButton(
@@ -120,122 +121,137 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            'Tidligere varer',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Builder(
-                              builder: (context) {
-                                int itemCount = items.length;
-                                return ListView.builder(
-                                  itemCount: itemCount,
-                                  itemBuilder: (context, index) {
-                                    ShoppingItem item = items[index];
-                                    return Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      elevation: 2,
-                                      child: ListTile(
-                                        title: Text(item.name),
-                                        onTap: () {
-                                          if (ref != null) {
-                                            ref!
-                                                .child(item.name)
-                                                .set(item.count + 1);
-                                          }
-                                        },
-                                        onLongPress: () {
-                                          if (ref != null) {
-                                            ref!.child(item.name).remove();
-                                          }
-                                        },
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return Column(
+              children: <Widget>[
+                Expanded(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 600,
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              children: <Widget>[
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    'Tidligere varer',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Builder(
+                                      builder: (context) {
+                                        int itemCount = items.length;
+                                        return ListView.builder(
+                                          itemCount: itemCount,
+                                          itemBuilder: (context, index) {
+                                            ShoppingItem item = items[index];
+                                            return Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              elevation: 2,
+                                              child: ListTile(
+                                                title: Text(item.name),
+                                                onTap: () {
+                                                  if (ref != null) {
+                                                    ref!
+                                                        .child(item.name)
+                                                        .set(item.count + 1);
+                                                  }
+                                                },
+                                                onLongPress: () {
+                                                  if (ref != null) {
+                                                    ref!
+                                                        .child(item.name)
+                                                        .remove();
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            'Valgte varer',
-                            style: TextStyle(
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Builder(
-                              builder: (context) {
-                                int itemCount = items
-                                    .where((item) => item.count > 0)
-                                    .length;
-                                List<ShoppingItem> sortedItems = items
-                                    .where((item) => item.count > 0)
-                                    .toList()
-                                  ..sort((a, b) => a.name.compareTo(b.name));
+                          Expanded(
+                            child: Column(
+                              children: <Widget>[
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 10.0),
+                                  child: Text(
+                                    'Valgte varer',
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Builder(
+                                      builder: (context) {
+                                        int itemCount = items
+                                            .where((item) => item.count > 0)
+                                            .length;
+                                        List<ShoppingItem> sortedItems = items
+                                            .where((item) => item.count > 0)
+                                            .toList()
+                                          ..sort((a, b) =>
+                                              a.name.compareTo(b.name));
 
-                                return ListView.builder(
-                                  itemCount: itemCount,
-                                  itemBuilder: (context, index) {
-                                    ShoppingItem item = sortedItems[index];
-                                    return Card(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0),
-                                      ),
-                                      elevation: 2,
-                                      child: ListTile(
-                                        title:
-                                            Text('${item.count}x ${item.name}'),
-                                        onTap: () {
-                                          if (ref != null) {
-                                            ref!
-                                                .child(item.name)
-                                                .set(item.count - 1);
-                                          }
-                                        },
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
+                                        return ListView.builder(
+                                          itemCount: itemCount,
+                                          itemBuilder: (context, index) {
+                                            ShoppingItem item =
+                                                sortedItems[index];
+                                            return Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              elevation: 2,
+                                              child: ListTile(
+                                                title: Text(
+                                                    '${item.count}x ${item.name}'),
+                                                onTap: () {
+                                                  if (ref != null) {
+                                                    ref!
+                                                        .child(item.name)
+                                                        .set(item.count - 1);
+                                                  }
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(

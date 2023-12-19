@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:handleliste/src/shoppinglist/shopping_list_view.dart';
+import 'dart:math';
 
 class ShoppingListCreationView extends StatefulWidget {
   const ShoppingListCreationView({super.key});
@@ -28,6 +31,14 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
     setState(() {
       listId = prefs.getString('shoppingListId');
     });
+  }
+
+  String generateRandomId([int length = 6]) {
+    const allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    final random = Random();
+    return List.generate(length, (index) {
+      return allowedChars[random.nextInt(allowedChars.length)];
+    }).join();
   }
 
   @override
@@ -144,27 +155,38 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                       // Create a new list
                       DatabaseReference listsRef =
                           FirebaseDatabase.instance.ref('shoppinglists');
-                      String? newListId = listsRef.push().key;
-                      listsRef.child(newListId!).set({
-                        'owner': currentUserId,
-                        'members': {
-                          currentUserId: true,
-                        },
-                        'shoppingitems': {},
-                      });
 
-                      // Store the list ID in shared preferences
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      await prefs.setString('shoppingListId', newListId);
+                      String newListId = generateRandomId();
+                      // Attempt to create a new list
+                      try {
+                        await listsRef.child(newListId).set({
+                          'owner': currentUserId,
+                          'members': {
+                            currentUserId: true,
+                          },
+                          'shoppingitems': {},
+                        });
 
-                      // Navigate to the ShoppingListView
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                ShoppingListView(listId: newListId)),
-                      );
+                        // Store the list ID in shared preferences
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setString('shoppingListId', newListId);
+
+                        // Navigate to the ShoppingListView
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ShoppingListView(listId: newListId)),
+                        );
+                      } catch (e) {
+                        // If the write fails, show an error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text(
+                                  'The list ID already exists. Please try a different ID.')),
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
