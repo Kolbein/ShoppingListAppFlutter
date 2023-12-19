@@ -95,6 +95,14 @@ class _ShoppingListViewState extends State<ShoppingListView> {
         title: const Text('Handleliste 🛒'),
         actions: <Widget>[
           IconButton(
+            icon: const Icon(Icons.code),
+            onPressed: () {
+              final snackBar =
+                  SnackBar(content: Text('Handleliste-ID: ${widget.listId}'));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.share),
             onPressed: () {
               Share.share('Bli med i handlelisten min med ID: ${widget.listId}',
