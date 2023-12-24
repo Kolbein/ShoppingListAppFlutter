@@ -103,7 +103,8 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                                     .instance
                                     .ref('listIds')
                                     .child(_listIdController.text);
-                                DataSnapshot snapshot = await listIdsRef.once();
+                                DatabaseEvent event = await listIdsRef.once();
+                                DataSnapshot snapshot = event.snapshot;
 
                                 if (snapshot.value != null) {
                                   // The list exists, join the list
