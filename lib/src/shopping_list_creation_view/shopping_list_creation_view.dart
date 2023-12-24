@@ -97,9 +97,14 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                                     .instance
                                     .ref('shoppinglists')
                                     .child(_listIdController.text);
-                                // Check if the list exists
-                                DataSnapshot snapshot =
-                                    (await listRef.once()).snapshot;
+
+                                // Check if the list exists in the listIds node
+                                DatabaseReference listIdsRef = FirebaseDatabase
+                                    .instance
+                                    .ref('listIds')
+                                    .child(_listIdController.text);
+                                DataSnapshot snapshot = await listIdsRef.once();
+
                                 if (snapshot.value != null) {
                                   // The list exists, join the list
                                   // Add the current user as a member of the list
@@ -138,7 +143,7 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                               }
                             }
                           },
-                          child: const Text('Join liste'),
+                          child: const Text('Join List'),
                         ),
                       ),
                     ),
@@ -155,8 +160,8 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                       // Create a new list
                       DatabaseReference listsRef =
                           FirebaseDatabase.instance.ref('shoppinglists');
-
                       String newListId = generateRandomId();
+
                       // Attempt to create a new list
                       try {
                         await listsRef.child(newListId).set({
@@ -166,6 +171,13 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                           },
                           'shoppingitems': {},
                         });
+
+                        // Add the list ID to the listIds node
+                        DatabaseReference listIdsRef = FirebaseDatabase
+                            .instance
+                            .ref('listIds')
+                            .child(newListId);
+                        await listIdsRef.set(true);
 
                         // Store the list ID in shared preferences
                         final SharedPreferences prefs =
