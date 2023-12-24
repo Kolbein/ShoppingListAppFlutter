@@ -130,7 +130,7 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                                   // The list does not exist, show a message
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content: Text('The list does not exist'),
+                                      content: Text('Listen eksisterer ikke'),
                                     ),
                                   );
                                 }
@@ -138,12 +138,12 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text(
-                                          'You must be logged in to join a list')),
+                                          'Du må være logget inn for å bli med i en liste')),
                                 );
                               }
                             }
                           },
-                          child: const Text('Join List'),
+                          child: const Text('Join liste'),
                         ),
                       ),
                     ),
@@ -196,14 +196,14 @@ class _ShoppingListCreationViewState extends State<ShoppingListCreationView> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                               content: Text(
-                                  'The list ID already exists. Please try a different ID.')),
+                                  'En liste med den IDen eksisterer allerede. Prøv igjen.')),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                             content:
-                                Text('You must be logged in to create a list')),
+                                Text('Du må være logget inn for å lage en liste')),
                       );
                     }
                   },
